@@ -16,7 +16,7 @@ def getStockList(stockName):
     exchange = stockName#'NASDAQ'
     urlPart2 = '%22)]&restype=company&noIL=1&num=30000'
     url =  urlPart1 + exchange + urlPart2
-    
+
     html = urlopen(url)
     
     soup = BeautifulSoup(html,"html5lib")
@@ -30,6 +30,8 @@ def getStockList(stockName):
     #print(len(aTagsSym))
     
     return aTagsCom,aTagsSym
+
+
 '''
 root = Tk()
 hello = Label(master = root,
@@ -61,19 +63,7 @@ class Page1(Page):
        Page.__init__(self, *args, **kwargs)
        label = tk.Label(self, text="This is page 1")
        label.pack(side="top", fill="both", expand=True)
-'''
-class Page2(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="This is page 2")
-       label.pack(side="top", fill="both", expand=True)
-
-class Page3(Page):
-   def __init__(self, *args, **kwargs):
-       Page.__init__(self, *args, **kwargs)
-       label = tk.Label(self, text="This is page 3")
-       label.pack(side="top", fill="both", expand=True)
-'''       
+      
 class Pages(Page):
     def __init__(self, *args, **kwargs):
         compList,symList = getStockList('IST')
@@ -110,9 +100,16 @@ class MainView(tk.Frame):
         compList,symList = getStockList('IST')
         print(len(compList))
         print(len(symList))
+        compStr = []
+        for a in range(0,len(compList)):
+            compStr.append('IST')
+        print(len(compStr))
         for i in range(0,len(compList),20):
             Page.__init__(self, *args, **kwargs)
-            label = tk.Label(self, text=i)
+            
+            newList = zip(compList,symList,compStr)
+            #data = zip(newList,compStr)
+            label = tk.Label(self, text="\n".join(map(str, newList)))
             label.pack(side="top", fill="both", expand=True)
 
 
@@ -124,22 +121,3 @@ if __name__ == "__main__":
     main.pack(side="top", fill="both", expand=True)
     root.wm_geometry("400x400")
     root.mainloop()
-
-#print('-----------------------')
-#print(aTagsSym)
-"""
-company = set()
-symbol = set()
-count = 2
-for aT in aTags:
-    if count % 2 == 0:
-        print(aT)
-        company.add(aT)
-    else:
-        symbol.add(aT)
-    count += 1
-"""   
-    
-#print(company)
-#print('-----------------------')
-#print(symbol)
